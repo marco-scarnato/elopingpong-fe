@@ -3,15 +3,20 @@
   --card-bg: #16161a;
   --accent-orange: #ff6b00;
   --accent-red: #ff3e3e;
+  --primary: #ff4747;
+  --primary-hover: #ff6666;
   --text-main: #e1e1e6;
   --text-dim: #a8a8b3;
   --border-color: #29292e;
+  --glass: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
 }
 
 body {
   margin: 0;
   padding: 0;
   background-color: var(--bg-color);
+  background-image: radial-gradient(circle at top right, #2a1111 0%, #0a0a0c 100%);
   color: var(--text-main);
   font-family:
     "Inter",
@@ -36,6 +41,7 @@ header h1 {
   margin: 0;
   background: linear-gradient(90deg, var(--accent-orange), var(--accent-red));
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   letter-spacing: -1px;
 }
@@ -143,4 +149,23 @@ tr:nth-child(2) .rank-pill {
 tr:nth-child(3) .rank-pill {
   background: #cd7f32;
   color: #000;
+}
+
+.ranking-card.full-width {
+  grid-column: 1 / -1;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.tab-content {
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.app-wrapper {
+  min-height: 100vh;
 }

@@ -1,0 +1,61 @@
+.admin-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.admin-match-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.form-row select, .form-row input {
+  padding: 0.8rem;
+  background: #202024;
+  border: 1px solid var(--border-color);
+  color: white;
+  border-radius: 8px;
+  flex: 1;
+}
+
+.error-message {
+  color: var(--accent-red);
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.admin-table {
+  width: 100%;
+}
+
+.mt-2 {
+  margin-top: 2rem;
+}
+
+.delete-btn {
+  background: rgba(255, 62, 62, 0.1);
+  color: var(--accent-red);
+  border: 1px solid var(--accent-red);
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.2s;
+}
+
+.delete-btn:hover {
+  background: var(--accent-red);
+  color: white;
+}
+
+.admin-link {
+  color: var(--accent-orange) !important;
+  font-weight: bold;
+}
