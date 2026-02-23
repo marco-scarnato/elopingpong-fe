@@ -17,7 +17,7 @@ function App() {
     try {
       const [playersRes, teamsRes] = await Promise.all([
         fetch('http://localhost:3000/api/players'),
-        fetch('http://localhost:3000/api/teams')
+        fetch('http://localhost:3000/api/team-matches/teams')
       ])
       const playersData = await playersRes.json()
       const teamsData = await teamsRes.json()
@@ -36,63 +36,39 @@ function App() {
 
   if (loading) return <div className="container" style={{display:'flex', justifyContent:'center', alignItems:'center', height:'80vh'}}><h1>Loading rankings...</h1></div>
 
-  const players11 = [...players].sort((a, b) => b.score_11 - a.score_11)
   const players21 = [...players].sort((a, b) => b.score_21 - a.score_21)
+  const sortedTeams = [...teams].sort((a, b) => b.score_21 - a.score_21)
 
   return (
     <div className="app-wrapper">
       <Header activeTab={activeTab} onTabChange={setActiveTab} />
       
       <div className="container">
+        {!user && (
+          <div className="welcome-banner">
+            Benvenuto! Accedi o registrati per inserire le tue partite.
+          </div>
+        )}
+
         {user && activeTab !== 'admin' && (
           <div className="actions-header" style={{display:'flex', gap:'1rem', marginBottom:'1.5rem', alignItems:'center', justifyContent: 'space-between'}}>
             <h1 style={{margin: 0}}>Classifica</h1>
             <button 
               onClick={() => setIsMatchModalOpen(true)}
-              style={{
-                background:'var(--accent-orange)', 
-                color:'white', 
-                border:'none', 
-                padding:'0.8rem 1.5rem', 
-                borderRadius:'8px', 
-                fontWeight:'bold', 
-                cursor:'pointer',
-                boxShadow: '0 4px 15px rgba(255, 107, 0, 0.3)'
-              }}
+              className="submit-btn"
             >
               + Aggiungi Match
             </button>
           </div>
         )}
 
-        <div className="tab-content">
-          {activeTab === 'singles11' && (
-            <section className="ranking-card full-width">
-              <h2>Singles (11 pts)</h2>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Rank</th>
-                    <th>Player</th>
-                    <th>ELO</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {players11.length > 0 ? players11.map((p, i) => (
-                    <tr key={p.id}>
-                      <td><span className="rank-pill">{i + 1}</span></td>
-                      <td>
-                        <span className="player-name">{p.name} {p.id === user?.id && <span style={{fontSize: '0.7rem', background: '#333', padding: '2px 6px', borderRadius: '4px', marginLeft: '8px'}}>TU</span>}</span>
-                        <span className="player-bu">{p.bu}</span>
-                      </td>
-                      <td className="score">{p.score_11}</td>
-                    </tr>
-                  )) : <tr><td colSpan="3" style={{textAlign:'center'}}>No players registered yet</td></tr>}
-                </tbody>
-              </table>
-            </section>
-          )}
+        {!user && activeTab !== 'admin' && (
+          <div className="actions-header" style={{marginBottom:'1.5rem'}}>
+            <h1 style={{margin: 0}}>Classifica</h1>
+          </div>
+        )}
 
+        <div className="tab-content">
           {activeTab === 'singles21' && (
             <section className="ranking-card full-width">
               <h2>Singles (21 pts)</h2>
@@ -109,12 +85,12 @@ function App() {
                     <tr key={p.id}>
                       <td><span className="rank-pill">{i + 1}</span></td>
                       <td>
-                        <span className="player-name">{p.name} {p.id === user?.id && <span style={{fontSize: '0.7rem', background: '#333', padding: '2px 6px', borderRadius: '4px', marginLeft: '8px'}}>TU</span>}</span>
+                        <span className="player-name">{p.name} {p.id === user?.id && <span style={{fontSize: '0.7rem', background: 'var(--accent-orange)', color: '#fff', padding: '2px 6px', borderRadius: '4px', marginLeft: '8px'}}>TU</span>}</span>
                         <span className="player-bu">{p.bu}</span>
                       </td>
                       <td className="score">{p.score_21}</td>
                     </tr>
-                  )) : <tr><td colSpan="3" style={{textAlign:'center'}}>No players registered yet</td></tr>}
+                  )) : <tr><td colSpan="3" style={{textAlign:'center'}}>Nessun giocatore registrato</td></tr>}
                 </tbody>
               </table>
             </section>
@@ -132,18 +108,15 @@ function App() {
                   </tr>
                 </thead>
                 <tbody>
-                  {teams.length > 0 ? teams.map((t, i) => (
+                  {sortedTeams.length > 0 ? sortedTeams.map((t, i) => (
                     <tr key={t.id}>
                       <td><span className="rank-pill">{i + 1}</span></td>
                       <td>
-                        <div className="player-name">{t.team_name}</div>
-                        <div style={{fontSize: '0.75rem', color: 'var(--text-dim)'}}>
-                          {t.p1_name} & {t.p2_name}
-                        </div>
+                        <div className="player-name">{t.p1_name} & {t.p2_name}</div>
                       </td>
                       <td className="score">{t.score_21}</td>
                     </tr>
-                  )) : <tr><td colSpan="3" style={{textAlign:'center'}}>No teams recorded yet</td></tr>}
+                  )) : <tr><td colSpan="3" style={{textAlign:'center'}}>Nessun team registrato</td></tr>}
                 </tbody>
               </table>
             </section>

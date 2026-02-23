@@ -27,27 +27,27 @@ const AuthModal = ({ isOpen, onClose }) => {
         setError(result.error);
       }
     } catch (err) {
-      setError('Something went wrong. Please try again.');
+      setError('Qualcosa è andato storto. Riprova.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={e => e.stopPropagation()}>
+    <div className="auth-overlay" onClick={onClose}>
+      <div className="auth-modal" onClick={e => e.stopPropagation()}>
         <button className="close-btn" onClick={onClose}>&times;</button>
-        <h2>{isLogin ? 'Welcome Back' : 'Join the League'}</h2>
+        <h2>{isLogin ? 'Bentornato!' : 'Unisciti alla Lega'}</h2>
         <p className="subtitle">
-          {isLogin ? 'Enter your credentials to continue' : 'Create your profile to start tracking'}
+          {isLogin ? 'Inserisci le credenziali per continuare' : 'Crea il tuo profilo per iniziare'}
         </p>
 
         <form onSubmit={handleSubmit}>
           <div className="input-group">
-            <label>Name</label>
+            <label>Nome</label>
             <input 
               type="text" 
-              placeholder="e.g. Marco S." 
+              placeholder="es. Marco S." 
               value={formData.name}
               onChange={e => setFormData({...formData, name: e.target.value})}
               required 
@@ -59,7 +59,7 @@ const AuthModal = ({ isOpen, onClose }) => {
               <label>Business Unit</label>
               <input 
                 type="text" 
-                placeholder="e.g. Engineering" 
+                placeholder="es. Engineering" 
                 value={formData.bu}
                 onChange={e => setFormData({...formData, bu: e.target.value})}
                 required 
@@ -81,14 +81,14 @@ const AuthModal = ({ isOpen, onClose }) => {
           {error && <div className="error-message">{error}</div>}
 
           <button type="submit" className="submit-btn" disabled={loading}>
-            {loading ? 'Processing...' : (isLogin ? 'Login' : 'Register')}
+            {loading ? 'Attendere...' : (isLogin ? 'Accedi' : 'Registrati')}
           </button>
         </form>
 
         <div className="switch-auth">
-          {isLogin ? "Don't have an account? " : "Already have an account? "}
+          {isLogin ? 'Non hai un account? ' : 'Hai già un account? '}
           <button onClick={() => setIsLogin(!isLogin)}>
-            {isLogin ? 'Register' : 'Login'}
+            {isLogin ? 'Registrati' : 'Accedi'}
           </button>
         </div>
       </div>

@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import AuthModal from './AuthModal';
+import ProfileModal from './ProfileModal';
+import ThemeToggle from './ThemeToggle';
 import './Header.css';
 
 const Header = ({ activeTab, onTabChange }) => {
   const { user, logout } = useAuth();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   return (
     <>
@@ -16,16 +19,10 @@ const Header = ({ activeTab, onTabChange }) => {
 
         <div className="tabs">
           <button 
-            className={`tab-btn ${activeTab === 'singles11' ? 'active' : ''}`}
-            onClick={() => onTabChange('singles11')}
-          >
-            Singles (11)
-          </button>
-          <button 
             className={`tab-btn ${activeTab === 'singles21' ? 'active' : ''}`}
             onClick={() => onTabChange('singles21')}
           >
-            Singles (21)
+            Singles
           </button>
           <button 
             className={`tab-btn ${activeTab === 'doubles' ? 'active' : ''}`}
@@ -39,26 +36,29 @@ const Header = ({ activeTab, onTabChange }) => {
               className={`tab-btn admin-link ${activeTab === 'admin' ? 'active' : ''}`}
               onClick={() => onTabChange('admin')}
             >
-              🛠 Admin
+              Admin
             </button>
           )}
         </div>
 
         <div className="user-section">
+          <ThemeToggle />
           {user ? (
             <div className="profile-badge">
               <span className="user-name">{user.name}</span>
+              <button className="profile-menu-btn" onClick={() => setIsProfileOpen(true)}>Profilo</button>
               <button className="logout-btn" onClick={logout}>Logout</button>
             </div>
           ) : (
-            <button className="profile-btn" onClick={() => setIsModalOpen(true)}>
-              <span className="icon">👤</span> Profile
+            <button className="profile-btn" onClick={() => setIsAuthOpen(true)}>
+              Accedi
             </button>
           )}
         </div>
       </nav>
 
-      <AuthModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <AuthModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} />
+      <ProfileModal isOpen={isProfileOpen} onClose={() => setIsProfileOpen(false)} />
     </>
   );
 };

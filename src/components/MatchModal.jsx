@@ -7,7 +7,6 @@ const MatchModal = ({ isOpen, onClose, players, onMatchAdded }) => {
   const [opponentId, setOpponentId] = useState('');
   const [creatorScore, setCreatorScore] = useState('');
   const [opponentScore, setOpponentScore] = useState('');
-  const [matchType, setMatchType] = useState('21');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -33,8 +32,7 @@ const MatchModal = ({ isOpen, onClose, players, onMatchAdded }) => {
         body: JSON.stringify({
           opponent_id: opponentId,
           creator_score: parseInt(creatorScore),
-          opponent_score: parseInt(opponentScore),
-          match_type: matchType
+          opponent_score: parseInt(opponentScore)
         })
       });
 
@@ -60,8 +58,8 @@ const MatchModal = ({ isOpen, onClose, players, onMatchAdded }) => {
   const filteredPlayers = players.filter(p => p.id !== user?.id);
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
+    <div className="match-overlay">
+      <div className="match-modal">
         <div className="modal-header">
           <h2>Aggiungi Match</h2>
           <button className="close-btn" onClick={onClose}>&times;</button>
@@ -77,14 +75,6 @@ const MatchModal = ({ isOpen, onClose, players, onMatchAdded }) => {
               {filteredPlayers.map(p => (
                 <option key={p.id} value={p.id}>{p.name}</option>
               ))}
-            </select>
-          </div>
-
-          <div className="form-group">
-            <label>Tipo Partita</label>
-            <select value={matchType} onChange={(e) => setMatchType(e.target.value)}>
-              <option value="21">21 Punti</option>
-              <option value="11">11 Punti</option>
             </select>
           </div>
 
